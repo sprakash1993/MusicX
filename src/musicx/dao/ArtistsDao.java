@@ -1,5 +1,7 @@
 package musicx.dao;
 
+import musicx.dao.ArtistsDao.ColumnNames;
+import musicx.model.Albums;
 import musicx.model.Artists;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -166,6 +168,89 @@ public class ArtistsDao {
 			}
 		}
 		return null;
+	}
+	
+	public List<Artists> getArtistsByArtistName(String artistName) throws SQLException {
+		List<Artists> artists = new ArrayList<Artists>();
+
+		String selectArtists =
+				"SELECT *" +
+				" FROM " + TABLE_NAME +
+				" WHERE " + ColumnNames.ARTIST_NAME + "=?;";
+
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectArtists);
+			selectStmt.setString(1, artistName);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				String artistId = results.getString("ArtistId");
+				String artistUrl = results.getString("ArtistUrl");
+				String artistWebsite = results.getString("ArtistWebsite");
+				
+				Artists artist = new Artists(artistId, artistName, artistUrl, artistWebsite);
+				artists.add(artist);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return artists;
+	}
+	
+	public List<Artists> getAllArtists() throws SQLException {
+		List<Artists> artistsList = new ArrayList<Artists>();
+		String selectArtists = 
+		"SELECT *" +
+		" FROM " + TABLE_NAME +
+		" LIMIT 100 ;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectArtists);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+				String artistId = results.getString(ColumnNames.ARTIST_ID.toString());
+				String artistName = results.getString(ColumnNames.ARTIST_NAME.toString());
+				String artistUrl = results.getString(ColumnNames.ARTIST_URL.toString());
+				String artistWebsite = results.getString(ColumnNames.ARTIST_WEBSITE.toString());
+			
+
+				Artists artist = new Artists(artistId, artistName, artistUrl, artistWebsite);
+
+
+				artistsList.add(artist);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return artistsList;
 	}
 
 }
