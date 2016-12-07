@@ -7,7 +7,7 @@
 <head>
 <title>Reviews</title>
 <!-- Bootstrap core CSS -->
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
 </head>
 <body>
 <div class="container">
