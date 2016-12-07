@@ -50,16 +50,22 @@ public class UserLogin extends HttpServlet {
 		
 		try{
 		Users u = ud.getUserByUsername(uname);
-		System.out.println(u.getFirstname());
+		//System.out.println(u.getFirstname());
 		//boolean result = true;
-		if(u.getPassword().equals(pass) && u!=null){
+		if(u==null){
+			request.setAttribute("errorMessage", "Invalid username");
+			RequestDispatcher rd = request.getRequestDispatcher("UserLogin.jsp");
+            rd.forward(request, response);
+		}
+		
+		if(u.getPassword().equals(pass)){
 			session.setAttribute("UserName", uname);
 			response.sendRedirect("UserHome.jsp");
 			return;
 		}
 		else{
 			session.invalidate();
-			request.setAttribute("errorMessage", "Invalid user or password");
+			request.setAttribute("errorMessage", "Wrong password");
 			RequestDispatcher rd = request.getRequestDispatcher("UserLogin.jsp");
             rd.forward(request, response);
 		}
