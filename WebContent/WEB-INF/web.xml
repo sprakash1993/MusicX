@@ -17,4 +17,42 @@
     <servlet-name>AllTracksServelet</servlet-name>
     <url-pattern>/tracks.do</url-pattern>
   </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>TrackSearch</servlet-name>
+    <servlet-class>musicx.servlet.TrackSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TrackSearch</servlet-name>
+    <url-pattern>/searchTracks.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>TracksByGenreServlet</servlet-name>
+    <servlet-class>musicx.servlet.TracksByGenreServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TracksByGenreServlet</servlet-name>
+    <url-pattern>/searchTracksGenre.do</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>TracksByArtistsServlet</servlet-name>
+    <servlet-class>musicx.servlet.TracksByArtistsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TracksByArtistsServlet</servlet-name>
+    <url-pattern>/searchTracksArtist.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>TracksByAlbumsServlet</servlet-name>
+    <servlet-class>musicx.servlet.TracksByAlbumsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TracksByAlbumsServlet</servlet-name>
+    <url-pattern>/searchTracksAlbum.do</url-pattern>
+  </servlet-mapping>
 </web-app>

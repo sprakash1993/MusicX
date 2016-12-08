@@ -216,7 +216,7 @@ public class ArtistsDao {
 		String selectArtists = 
 		"SELECT *" +
 		" FROM " + TABLE_NAME +
-		" LIMIT 100 ;";
+		" LIMIT 15 ;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;

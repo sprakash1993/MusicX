@@ -5,7 +5,7 @@ public class Tracks {
 	
 	private String track_id, album_id, artist_id, genre_id, 
 	track_title, track_url, track_duration, track_information,
-	track_number, track_composer, track_bit_rate;
+	track_number, track_composer, track_bit_rate, track_image_file;
 
 	public Tracks(String track_id, String album_id, String artist_id, String genre_id, String track_title,
 			String track_url, String track_duration, String track_information, String track_number,
@@ -23,6 +23,28 @@ public class Tracks {
 		this.track_composer = track_composer;
 		this.track_bit_rate = track_bit_rate;
 	}
+	
+	
+
+	public Tracks(String track_id, String album_id, String artist_id, String genre_id, String track_title,
+			String track_url, String track_duration, String track_information, String track_number,
+			String track_composer, String track_bit_rate, String track_image_file) {
+		super();
+		this.track_id = track_id;
+		this.album_id = album_id;
+		this.artist_id = artist_id;
+		this.genre_id = genre_id;
+		this.track_title = track_title;
+		this.track_url = track_url;
+		this.track_duration = track_duration;
+		this.track_information = track_information;
+		this.track_number = track_number;
+		this.track_composer = track_composer;
+		this.track_bit_rate = track_bit_rate;
+		this.track_image_file = track_image_file;
+	}
+
+
 
 	public String getTrack_id() {
 		return track_id;
@@ -111,6 +133,21 @@ public class Tracks {
 	public void setTrack_bit_rate(String track_bit_rate) {
 		this.track_bit_rate = track_bit_rate;
 	}
+
+
+
+	public String getTrack_image_file() {
+		return track_image_file;
+	}
+
+
+
+	public void setTrack_image_file(String track_image_file) {
+		this.track_image_file = track_image_file;
+	}
+	
+	
+	
 
 	
 	

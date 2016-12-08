@@ -1,5 +1,5 @@
-<%@page import="musicx.dao.LocationDao"%>
-<%@page import="musicx.model.Location"%>
+<%@page import="musicx.dao.*"%>
+<%@page import="musicx.model.*"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -7,6 +7,7 @@
 <html>
 <head>
 <title>MusicX - Music Recommendation Portal</title>
+<link rel="shortcut icon" href="images/favicon.ico">
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -89,16 +90,17 @@ function cancelRegister(){
 	<div class="header-top">
 		<div class="container">
 			<div class="search">
-					<form>
-						<input type="text" value="Search " onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+					<form action="SearchTracks" method="post" name="frmSearch">
+						<input type="text" id="searchText" name="searchText" value="Search " onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
 						<input type="submit" value="Go">
 					</form>
 			</div>
 			<div class="header-left">		
 					<ul>
-						<li ><a href="login.html"  >Login</a></li>
-						<li><a  href="register.html"  >Register</a></li>
-
+						<li ><a href="UserLogin.jsp"  >Login</a></li>
+						<li><a  href="UserRegister.jsp"  >Register</a></li>
+						<li><a  href="playlist.html"  >My Playlist</a></li>
+						<li><a  href="account.html"  >Account</a></li>
 					</ul>
 					<div class="clearfix"> </div>
 			</div>
@@ -112,168 +114,72 @@ function cancelRegister(){
 				</div>
 		  <div class=" h_menu4">
 				<ul class="memenu skyblue">
-					  <li class="active grid"><a class="color8" href="index.html">Home</a></li>	
+					 <li class="active grid"><a class="color8" href="UserHome.jsp">Home</a></li>	
 				      <li><a class="color1" href="#">Genres</a>
 				      	<div class="mepanel">
 						<div class="row">
+						<% GenresDao gd = GenresDao.getInstance();
+							   List<Genres> genres = gd.getAllGenres();
+							   int i,j;
+							   for(i=0;i<3;i++){%>
 							<div class="col1">
+							
 								<div class="h_nav">
 									<ul>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
+									<%for(j=5*i;j<5*(i+1);j++){ %>
+										<li><a class="truncate" href="searchTracksGenre.do?genreID=<%= genres.get(j).getGenre_id() %>"><%= genres.get(j).getGenre_title() %></a></li>
+									    
+										<%} %>
 									</ul>	
 								</div>							
 							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<ul>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-									</ul>	
-								</div>							
-							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<h4>Popular Genres</h4>
-									<ul>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-										<li><a href="products.html">Genre1</a></li>
-									</ul>	
-								</div>												
-							</div>
+							<%} %>
+							
 						  </div>
 						</div>
 					</li>
 				    <li class="grid"><a class="color1" href="#">Artists</a>
 					  	<div class="mepanel">
+					  	<h3 align="center">Popular Artists</h3>
+				      	<hr/>
 						<div class="row">
+							<% ArtistsDao ard = ArtistsDao.getInstance();
+							   List<Artists> artists = ard.getAllArtists();
+							   for(i=0;i<3;i++){%>
 							<div class="col1">
+							
 								<div class="h_nav">
 									<ul>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
+									<%for(j=5*i;j<5*(i+1);j++){ %>
+										<li><a class="truncate" href="searchTracksArtist.do?artistId=<%= artists.get(j).getArtistId()%>"><%= artists.get(j).getArtistName() %></a></li>
+									    
+										<%} %>
 									</ul>	
 								</div>							
 							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<ul>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-									</ul>	
-								</div>							
-							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<h4>Trending Artists</h4>
-									<ul>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-										<li><a href="products.html">Artist1</a></li>
-									</ul>	
-								</div>												
-							</div>
+							<%} %>
 						  </div>
 						</div>
 			    </li>
 				<li class="grid"><a class="color1" href="#">Albums</a>
 					  	<div class="mepanel">
+					  	<h3 align="center">Popular Albums</h3>
+				      	<hr/>
 						<div class="row">
+							<% AlbumsDao ald = AlbumsDao.getInstance();
+							   List<Albums> albums = ald.getAllAlbums();
+							   for(i=0;i<3;i++){%>
 							<div class="col1">
 								<div class="h_nav">
 									<ul>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
+									<%for(j=5*i;j<5*(i+1);j++){ %>
+										<li><a class="truncate" href="searchTracksAlbum.do?albumId=<%=albums.get(j).getAlbum_id()%>"><%= albums.get(j).getAlbum_title() %></a></li>
+									    
+										<%} %>
 									</ul>	
 								</div>							
 							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<ul>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-									</ul>	
-								</div>							
-							</div>
-							<div class="col1">
-								<div class="h_nav">
-									<h4>Trending Albums</h4>
-									<ul>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-										<li><a href="products.html">Album1</a></li>
-									</ul>	
-								</div>												
-							</div>
+							<%} %>
 						  </div>
 						</div>
 			    </li>
@@ -292,21 +198,13 @@ List<Location> locations = ld.getAllLocation();%>
 <div class=" register">
 	<h1>Register</h1>
 <form name="frmUserRegister" action="UserRegister" method="post" onsubmit="return validateForm()">
-  <h1>Register</h1>
   
   <div class="col-md-6 register-top-grid">
-					<div>
+  <div>
 						 <span>Username</span>
 						<input type="text" id="userName" name="userName"></input>
 					 </div>
-					 <div>
-						 <span>Password</span>
-						 <input type="password" id="pwd" name="pwd">
-					 </div>
-					 <div>
-						 <span>Reenter Password</span>
-						<input type="password" id="repwd" name="repwd" onchange="checkPass()" >
-					 </div>
+					
 					 <div>
 						<span>First Name</span>
 						<input type="text" id="firstname" name="firstname"></input>
@@ -315,11 +213,7 @@ List<Location> locations = ld.getAllLocation();%>
 						<span>Last Name</span>
 						<input type="text" id="lastname" name="lastname"></input>
 					 </div>
-					 
-					 </div>
-				     <div class="col-md-6 register-bottom-grid">
-						   
-							 <div>
+					 <div>
 								<span>Date Of Birth</span>
 								<input type="date" id="birthDate" name="birthDate">
 							 </div>
@@ -341,10 +235,30 @@ List<Location> locations = ld.getAllLocation();%>
 								<span>Phone</span>
 								<input type="number" id="phone" name="phone" maxlength="6">
 							 </div>
+					 
+					 </div>
+				     <div class="col-md-6 register-bottom-grid">
+				     
+					 <div>
+						 <span>Password</span>
+						 <input type="password" id="pwd" name="pwd">
+					 </div>
+					 <div>
+						 <span>Reenter Password</span>
+						<input type="password" id="repwd" name="repwd" onchange="checkPass()" >
+					 </div>
+					 <div><p id="errMsg" style="color:red"><%
+    					if(null!=request.getAttribute("errorMessage"))
+    					{
+        				out.println(request.getAttribute("errorMessage"));
+    					}
+					%></p></div>
+						   
+							 
 							 </br>
 							 </br>
 							 <input type="submit" value="Submit">
-							 <input type="button" value="Cancel" onclick="cancelRegister()" >
+							 <input type="button" class="btn btn-warning btn-lg" value="Cancel" onclick="cancelRegister()" >
 					 </div>
 					 <div class="clearfix"> </div>
 </form>

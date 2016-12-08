@@ -25,7 +25,7 @@
 .memenu form.contact input[type="text"]:focus,
 .memenu form.contact textarea:focus{border:solid 1px #999}
 .memenu form.contact input[type="submit"]{width:100px;height:35px;border:0;color:#fff;cursor:pointer;background:#999}
-.mepanel .row{width:100%;margin-top:15px}
+.mepanel .row {width:100%;margin-top:15px; margin-left:0px;text-align:center;}
 .mepanel .row:first-child{margin-top:0}
 .mepanel .row:before,.mepanel .row:after{display:table;content:"";line-height:0}
 .mepanel .row:after{clear:both}

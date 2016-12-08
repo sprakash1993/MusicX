@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,19 +16,25 @@ import musicx.dao.TracksDao;
 import musicx.model.Tracks;
 
 /**
- * Servlet implementation class AllTracksServelet
+ * Servlet implementation class TracksByGenreServlet
  */
-
-public class AllTracksServelet extends HttpServlet {
+@WebServlet("/TracksByGenreServlet")
+public class TracksByGenreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	public AllTracksServelet(){
-		super();
-	}
- 
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public TracksByGenreServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   
-			//System.out.println("Hi");
+		
 	        int page = 1;
 	        int recordsPerPage = 18;
 	        if(request.getParameter("page") != null)
@@ -36,12 +42,13 @@ public class AllTracksServelet extends HttpServlet {
 	        
 	        TracksDao tracksDao = TracksDao.getInstance();
 			List<Tracks> tracks = new ArrayList<Tracks>();
+			int genre_id = Integer.parseInt(request.getParameter("genreID"));
 			
 			try{
-				tracks = tracksDao.getAllTracks("",(page-1)*recordsPerPage,
-                        recordsPerPage);
+				tracks = tracksDao.getTracksByGenreId(genre_id,(page-1)*recordsPerPage,
+                       recordsPerPage);
 				System.out.println(tracks.size());
-				int noOfRecords = tracksDao.getNoOfRecords();
+				int noOfRecords = tracksDao.getNoOfTracksByGenre();
 		        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 				
 		        request.setAttribute("tracksList", tracks);
@@ -55,7 +62,8 @@ public class AllTracksServelet extends HttpServlet {
 					e.printStackTrace();
 				}
 	        
-	        
+		
 	}
+
 
 }

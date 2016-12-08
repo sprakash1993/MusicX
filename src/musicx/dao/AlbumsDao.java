@@ -141,7 +141,7 @@ public class AlbumsDao {
 	public List<Albums> getAllAlbums() throws SQLException {
 		List<Albums> albumsList = new ArrayList<Albums>();
 		String selectAlbums = "SELECT album_id,album_title,album_url " 
-				+ "FROM Albums LIMIT 100";
+				+ "FROM Albums LIMIT 15";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;

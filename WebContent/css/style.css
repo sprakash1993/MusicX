@@ -5,6 +5,18 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 /* Style The Dropdown Button */
+.truncate{
+
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	
+}
+.special-img {
+  display: block;
+  max-width: 100%;
+  height: 150px;
+}
 .dropbtn {
     background-color: #4CAF50;
     color: white;

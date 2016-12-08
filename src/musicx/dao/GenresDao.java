@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import musicx.model.Genres;
 
 public class GenresDao {
@@ -88,6 +91,48 @@ public class GenresDao {
 			}
 		}
 		return null;
+	
+	}
+	
+	public List<Genres> getAllGenres() throws SQLException {
+
+		String selectGenres = "SELECT genre_id, genre_title, genre_url from genres limit 15;";
+		
+		List<Genres> genres= new ArrayList<Genres>();
+		
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectGenres);
+			results = selectStmt.executeQuery();
+			
+			while(results.next()) {
+				
+				int genre_id = results.getInt("genre_id");
+				String title = results.getString("genre_title");
+				String url = results.getString("genre_url");
+				
+				Genres genre = new Genres(genre_id, title, url);
+				
+				genres.add(genre);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return genres;
 	
 	}
 	

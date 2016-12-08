@@ -1,8 +1,9 @@
 <%@page import="musicx.dao.*"%>
 <%@page import="musicx.model.*"%>
 <%@page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,32 +24,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--fonts-->
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'><!--//fonts-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- start menu -->
 <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
 <script type="text/javascript" src="js/memenu.js"></script>
 <script>$(document).ready(function(){$(".memenu").memenu();});</script>
 <script src="js/simpleCart.min.js"> </script>
-
-<script type="text/javascript">
-function validateForm() {
-	var uname = document.forms["frmUserLogin"]["username"].value;
-	var password = document.forms["frmUserLogin"]["pwd"].value;
-	if (uname == "" || uname == null){
-		alert("Enter username");
-		return false;		
-	}
-	if (password == "" || password == null){
-		alert("Enter password");
-		return false;		
-	}
-}
-
-function registerUser(){
-	window.location.href="UserRegister.jsp";	
-}
-
-</script>
-
 </head>
 <body>
 <!--header-->
@@ -160,38 +141,101 @@ function registerUser(){
 	</div>
 	<!--header-ends-->
 	<!--content-->
-<div class="container">
-		<div class="account">
-		<h1>Account</h1>
-		<div class="account-pass">
-		<div class="col-md-12 account-top">
-<form name="frmUserLogin" action="UserLogin" method="post" onsubmit="return validateForm()">
-  <div> 	
-				<span>Username</span>
-				<input type="text" id="username" name="username"></input>
-			</div>
-			<div> 
-				<span >Password</span>
-				<input type="password" id="pwd" name="pwd">
-			</div>	
+<!---->
+		<div class="product">
+			<div class="container">
+				
+				<div class="col-md-12 product1">
+				
+				<div class=" bottom-product">
+				<c:forEach var="track" items="${tracksList}"> 
+					<div class="col-md-2 bottom-cd simpleCart_shelfItem">
+						<div class="product-at ">
+							<a href="single.html"><img class="special-img" src="${track.getTrack_image_file()}" height="150" alt="">
+							<div class="pro-grid">
+							<div class="col-md-12">
+										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-play"></i></span></a>
+										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-heart-empty"></i></span></a>
+										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-star"></i></span></a>
 
-  	<div><p id="errMsg" style="color:red"><%
-    if(null!=request.getAttribute("errorMessage"))
-    {
-        out.println(request.getAttribute("errorMessage"));
-    }
-%></p></div>
+							</div>
+							</div>
+						</a>	
+						</div>
+						<p class="tun">
+						${fn:substring(track.getTrack_title(),0,15)}
+					</p>
+						<a href="#" class="item_add"><p class="number item_price"><i class="glyphicon glyphicon-plus"></i>Add to Playlist</p></a>					
+					</div>
+					</c:forEach>
+					</div>
+					
+					<div class="clearfix"> </div>
+				</div>
+				<div class="clearfix"> </div>
+				
+				<nav class="in">
+				<c:set var="p" value="${currentPage}" /> 
+		<c:set var="l" value="10" /> 
+		<c:set var="r" value="${l / 2}" /> 
+		<c:set var="t" value="${noOfPages}" />
 
-<input type="submit" value="Login">
-  
-</form>
-</div>
+		<c:set var="begin" value="${((p - r) > 0 ? ((p - r) < (t - l + 1) ? (p - r) : (t - l)) : 0) + 1}" />
+		<c:set var="end" value="${(p + r) < t ? ((p + r) > l ? (p + r) : l) : t}" />
 		
-	<div class="clearfix"> </div>
-	</div>
-	</div>
+		
+				  <ul class="pagination">
+				  <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+					
+				  <c:forEach begin="${begin}" end="${end}" var="page">
+					
+					 
+					 <c:choose>
+                    <c:when test="${currentPage eq page}">
+                       
+                        <li class="active"><a href="#">${page} <span class="sr-only">(current)</span></a></li>
+                    </c:when>
+                    <c:otherwise>
+                       
+                        <li><a href="searchTracksGenre.do?page=${page}">${page} <span class="sr-only"></span></a></li>
+                    </c:otherwise>
+                    </c:choose>
+					 </c:forEach>
+					 <li> <a href="#" aria-label="Next"><span aria-hidden="true">»</span> </a> </li>
+				  </ul>
+				  
+				  
 
-</div>
-
+		
+				  
+				</nav>
+				</div>
+		
+		
+		</div>
+		
+		<!--//content-->
+<div class="footer">
+				<div class="container">
+			<div class="footer-top-at">
+			
+				
+				<div class="col-md-4 amet-sed">
+					<h4>Newsletter</h4>
+					<p>Sign Up to get updates which will harass you with advertisements for life</p>
+					<form>
+						<input type="text" value="" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
+						<input type="submit" value="Sign up">
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<div class="footer-class">
+		<p >MusicX - Music Recommendation Portal | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+		</div>
+		</div>
+	
+   
 </body>
 </html>
