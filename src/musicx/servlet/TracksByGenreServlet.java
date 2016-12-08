@@ -55,7 +55,7 @@ public class TracksByGenreServlet extends HttpServlet {
 		        request.setAttribute("noOfPages", noOfPages);
 		        request.setAttribute("currentPage", page);
 		        
-		        RequestDispatcher view = request.getRequestDispatcher("FindAllTracksByPage.jsp");
+		        RequestDispatcher view = request.getRequestDispatcher("TracksByFilteredResults.jsp");
 		        view.forward(request, response);
 		        
 				}catch (SQLException e) {

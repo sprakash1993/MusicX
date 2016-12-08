@@ -16,16 +16,16 @@ import musicx.dao.TracksDao;
 import musicx.model.Tracks;
 
 /**
- * Servlet implementation class TracksByArtistsServlet
+ * Servlet implementation class TrackSearch
  */
-@WebServlet("/TracksByArtistsServlet")
-public class TracksByArtistsServlet extends HttpServlet {
+@WebServlet("/TopTracksServlet")
+public class TopTracksServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TracksByArtistsServlet() {
+    public TopTracksServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +35,26 @@ public class TracksByArtistsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int page = 1;
+
+		int page = 1;
         int recordsPerPage = 18;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         
-        TracksDao tracksDao = TracksDao.getInstance();
+		TracksDao tracksDao = TracksDao.getInstance();
 		List<Tracks> tracks = new ArrayList<Tracks>();
-		String artistId = request.getParameter("artistId");
+		
 		
 		try{
-			tracks = tracksDao.getTracksByArtistId(artistId,(page-1)*recordsPerPage,
-                   recordsPerPage);
+			tracks = tracksDao.getTopTracks((page-1)*recordsPerPage,
+                    recordsPerPage);
 			System.out.println(tracks.size());
-			int noOfRecords = tracksDao.getNoOfTracksByArtist();
+			int noOfRecords = tracksDao.getNoOfSpecialRecords();
 	        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 			
 	        request.setAttribute("tracksList", tracks);
 	        request.setAttribute("noOfPages", noOfPages);
 	        request.setAttribute("currentPage", page);
-	        
 	        
 	        RequestDispatcher view = request.getRequestDispatcher("TracksByFilteredResults.jsp");
 	        view.forward(request, response);
@@ -62,8 +62,9 @@ public class TracksByArtistsServlet extends HttpServlet {
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
-        
-	
 	}
+
+	
+	
 
 }

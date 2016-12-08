@@ -52,11 +52,11 @@ public class TrackSearch extends HttpServlet {
 			int noOfRecords = tracksDao.getNoOfRecords();
 	        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 			
-	        request.setAttribute("tracks", tracks);
+	        request.setAttribute("tracksList", tracks);
 	        request.setAttribute("noOfPages", noOfPages);
 	        request.setAttribute("currentPage", page);
 	        
-	        RequestDispatcher view = request.getRequestDispatcher("TrackSearch.jsp");
+	        RequestDispatcher view = request.getRequestDispatcher("TracksByFilteredResults.jsp");
 	        view.forward(request, response);
 	        
 			}catch (SQLException e) {
