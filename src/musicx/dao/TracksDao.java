@@ -24,6 +24,9 @@ public class TracksDao {
 		}
 		return instance;
 	}
+	
+	private int noOfRecords;
+    
 
 	public Tracks create(Tracks track) throws SQLException {
 		String insertTrack = "INSERT INTO Tracks(track_id, album_id, artist_id, genre_id,"+ 
@@ -72,7 +75,7 @@ public class TracksDao {
 	}
 
 	public Tracks getTrackByTrackId(String track_id) throws SQLException {
-		String selectTrack = "SELECT track_id, album_id, artist_id, genre_id,"+ 
+		String selectTrack = "SELECT  track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
 	+ "FROM Tracks "+ "WHERE track_id=?;";
@@ -331,12 +334,14 @@ public class TracksDao {
 		return tracksList;
 	}
 	
-	public List<Tracks> getAllTracks() throws SQLException {
+	public List<Tracks> getAllTracks(int offset, 
+            int noOfTracks) throws SQLException {
+		System.out.println("hello");
 		List<Tracks> tracksList = new ArrayList<Tracks>();
-		String selectTracks = "SELECT track_id, album_id, artist_id, genre_id,"+ 
+		String selectTracks = "SELECT SQL_CALC_FOUND_ROWS track_id, album_id, artist_id, genre_id,"+ 
 	"track_title, track_url, track_duration, track_information,"+
 	"track_number, track_composer, track_bit_rate " 
-				+ "FROM Tracks LIMIT 100";
+				+ "FROM Tracks LIMIT " + offset + ", "+noOfTracks;
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -364,7 +369,19 @@ public class TracksDao {
 
 
 				tracksList.add(track);
+				
+				
+				
+				
+				
 			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfRecords = results.getInt(1);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -381,6 +398,12 @@ public class TracksDao {
 		}
 		return tracksList;
 	}
+	
+
+    public int getNoOfRecords() {
+    	System.out.println(noOfRecords);
+        return noOfRecords;
+    }
 
 	/**
 	 * Delete the Tracks instance. This runs a DELETE statement.
