@@ -27,6 +27,8 @@ public class TracksDao {
 	
 	private int noOfRecords;
 	
+	private int noOfSpecialRecords;
+	
 	private int noOfTracksByGenre;
 	
 	private int noOfTracksByArtists;
@@ -480,7 +482,7 @@ public class TracksDao {
 			results = selectStmt.executeQuery();
 			//System.out.println(tracksList.size());
 			if(results.next())
-				this.noOfRecords = results.getInt(1);
+				this.noOfSpecialRecords = results.getInt(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -506,8 +508,8 @@ public class TracksDao {
 		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
 	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
 	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
-	+ ", sum(if (b.count is not null, b.count, 0)) as totalCount"+
-" FROM tracks a JOIN playcount b ON a.track_id = b.track_id"+
+	+ ", sum(if (b.count is not null, b.count, 0)) as totalCount "+
+"FROM tracks a JOIN playcount b ON a.track_id = b.track_id "+
 "GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -544,7 +546,7 @@ public class TracksDao {
 			results = selectStmt.executeQuery();
 			//System.out.println(tracksList.size());
 			if(results.next())
-				this.noOfRecords = results.getInt(1);
+				this.noOfSpecialRecords = results.getInt(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -610,7 +612,7 @@ public class TracksDao {
 			results = selectStmt.executeQuery();
 			//System.out.println(tracksList.size());
 			if(results.next())
-				this.noOfRecords = results.getInt(1);
+				this.noOfSpecialRecords = results.getInt(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -676,7 +678,7 @@ public class TracksDao {
 			results = selectStmt.executeQuery();
 			//System.out.println(tracksList.size());
 			if(results.next())
-				this.noOfRecords = results.getInt(1);
+				this.noOfSpecialRecords = results.getInt(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -694,5 +696,12 @@ public class TracksDao {
 		}
 		return tracksList;
 	}
+
+	public int getNoOfSpecialRecords() {
+		return noOfSpecialRecords;
+	}
+
+	
+	
 
 }

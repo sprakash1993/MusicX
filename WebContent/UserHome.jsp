@@ -219,7 +219,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 		<div class="col-md-6">
 			<div class="col-md1 ">
-				<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t2.jpg" alt="">
+				<a href="MostPlayedTracksServlet" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t2.jpg" alt="">
 					<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in1   b-delay03 ">
 										<span>Most Played Tracks</span>	
