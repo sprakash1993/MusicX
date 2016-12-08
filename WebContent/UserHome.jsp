@@ -207,7 +207,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="content-top-bottom">
 		<h2>Featured</h2>
 		<div class="col-md-6 men">
-			<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t1.jpg" alt="">
+			<a href="TopTracksServlet" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t1.jpg" alt="">
 				<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in   b-delay03 ">
 										<span>Top Rated Tracks</span>	
@@ -230,7 +230,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="col-md2">
 				<div class="col-md-6 men1">
-					<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t3.jpg" alt="">
+					<a href="TracksByPopularArtistsServlet" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t3.jpg" alt="">
 							<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in2   b-delay03 ">
 										<span>Tracks By Popular Artists</span>	
@@ -240,7 +240,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 				</div>
 				<div class="col-md-6 men2">
-					<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t4.jpg" alt="">
+					<a href="TracksByPopularAlbumsServlet" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t4.jpg" alt="">
 							<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in2   b-delay03 ">
 										<span>Tracks From Popular Albums</span>	

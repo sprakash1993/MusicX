@@ -445,7 +445,7 @@ public class TracksDao {
 	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file, "
 	+ "avg(b.rating) as average, count(b.review_id) as count " 
 				+ "FROM tracks a JOIN reviews b "
-				+ "ON a.track_id = a.track_id GROUP BY b.track_id"+
+				+ "ON a.track_id = a.track_id GROUP BY b.track_id "+
 "ORDER BY count DESC, average DESC LIMIT " + offset + ", "+noOfTracks;
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -569,14 +569,14 @@ public class TracksDao {
             int noOfTracks) throws SQLException {
 		
 		List<Tracks> tracksList = new ArrayList<Tracks>();
-		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
-	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
-	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
+		String selectTracks = "SELECT t.track_id, t.album_id, t.artist_id, t.genre_id,"+ 
+	"t.track_title, t.track_url, t.track_duration, t.track_information,"+
+	"t.track_number, t.track_composer, t.track_bit_rate, t.track_image_file "
 	+ "FROM tracks t JOIN (SELECT a.artist_id, a.artist_name, avg(c.rating) as average, count(b.track_id) "
 	+ "as count FROM artists a JOIN tracks b JOIN reviews c "
-	+ "ON a.artist_id = b.artist_id AND b.track_id = c.track_id"+
-" GROUP BY a.artist_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.artist_id = x.artist_id"+
-"GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
+	+ "ON a.artist_id = b.artist_id AND b.track_id = c.track_id "+
+"GROUP BY a.artist_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.artist_id = x.artist_id "+
+"LIMIT " + offset + ", "+noOfTracks;
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
@@ -635,14 +635,14 @@ public class TracksDao {
             int noOfTracks) throws SQLException {
 		
 		List<Tracks> tracksList = new ArrayList<Tracks>();
-		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
-	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
-	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
+		String selectTracks = "SELECT t.track_id, t.album_id, t.artist_id, t.genre_id,"+ 
+				"t.track_title, t.track_url, t.track_duration, t.track_information,"+
+				"t.track_number, t.track_composer, t.track_bit_rate, t.track_image_file "
 	+ "FROM tracks t JOIN (SELECT a.album_id, a.album_title, avg(c.rating) as average, count(b.track_id) "
 	+ "as count FROM albums a JOIN tracks b JOIN reviews c "
-	+ "ON a.album_id = b.album_id AND b.track_id = c.track_id"+
-" GROUP BY a.album_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.album_id = x.album_id"+
-"GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
+	+ "ON a.album_id = b.album_id AND b.track_id = c.track_id "+
+"GROUP BY a.album_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.album_id = x.album_id "+
+"LIMIT " + offset + ", "+noOfTracks;
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
