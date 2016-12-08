@@ -1,3 +1,6 @@
 /build/
 src/musicx/dao/ConnectionManager.java
 
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.classpath
+.classpath
