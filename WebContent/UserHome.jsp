@@ -210,7 +210,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t1.jpg" alt="">
 				<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in   b-delay03 ">
-										<span>Top 100 Tracks</span>	
+										<span>Top Rated Tracks</span>	
 									</h3>
 								</div>
 			</a>
@@ -222,7 +222,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t2.jpg" alt="">
 					<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in1   b-delay03 ">
-										<span>Tracks By Popular Artists</span>	
+										<span>Most Played Tracks</span>	
 									</h3>
 								</div>
 				</a>
@@ -233,7 +233,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<a href="single.html" class="b-link-stripe b-animate-go  thickbox"><img class="img-responsive" src="images/t3.jpg" alt="">
 							<div class="b-wrapper">
 									<h3 class="b-animate b-from-top top-in2   b-delay03 ">
-										<span>Tracks By Popular Genres</span>	
+										<span>Tracks By Popular Artists</span>	
 									</h3>
 								</div>
 					</a>

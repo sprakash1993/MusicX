@@ -213,10 +213,14 @@ public class ArtistsDao {
 	
 	public List<Artists> getAllArtists() throws SQLException {
 		List<Artists> artistsList = new ArrayList<Artists>();
-		String selectArtists = 
-		"SELECT *" +
-		" FROM " + TABLE_NAME +
-		" LIMIT 15 ;";
+		String selectArtists = "SELECT x.artist_id, x.artist_name, x.artist_url, x.artist_website "
+				+ "FROM (SELECT a.artist_id, a.artist_name, a.artist_url, a.artist_website, avg(c.rating) as average, "
+				+ "count(b.track_id) as count " + "FROM artists a JOIN tracks b JOIN reviews c "
+				+ "ON a.artist_id = b.artist_id AND b.track_id = c.track_id " + "GROUP BY a.artist_id "
+				+ "ORDER BY count DESC,average DESC LIMIT 15) as x UNION "
+				+ "(SELECT a.artist_id, a.artist_name, a.artist_url, a.artist_website " 
+				+ "FROM artists a JOIN tracks b "
+				+ "ON a.artist_id = b.artist_id " + "GROUP BY a.artist_id " + "LIMIT 15);";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;

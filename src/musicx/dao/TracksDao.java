@@ -404,7 +404,6 @@ public class TracksDao {
     	System.out.println(noOfRecords);
         return noOfRecords;
     }
-
 	/**
 	 * Delete the Tracks instance. This runs a DELETE statement.
 	 */
@@ -432,6 +431,268 @@ public class TracksDao {
 				deleteStmt.close();
 			}
 		}
+	}
+	
+	//////////////////////for the bottom 4
+	public List<Tracks> getTopTracks(int offset, 
+            int noOfTracks) throws SQLException {
+		
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
+	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
+	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file, "
+	+ "avg(b.rating) as average, count(b.review_id) as count " 
+				+ "FROM tracks a JOIN reviews b "
+				+ "ON a.track_id = a.track_id GROUP BY b.track_id"+
+"ORDER BY count DESC, average DESC LIMIT " + offset + ", "+noOfTracks;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+				String resultImageFile = results.getString("track_image_file");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate, resultImageFile);
+
+
+				tracksList.add(track);
+		
+			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			//System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfRecords = results.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
+	}
+	
+	public List<Tracks> getMostPlayedTracks(int offset, 
+            int noOfTracks) throws SQLException {
+		
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
+	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
+	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
+	+ ", sum(if (b.count is not null, b.count, 0)) as totalCount"+
+" FROM tracks a JOIN playcount b ON a.track_id = b.track_id"+
+"GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+				String resultImageFile = results.getString("track_image_file");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate, resultImageFile);
+
+
+				tracksList.add(track);
+		
+			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			//System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfRecords = results.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
+	}
+	
+	public List<Tracks> getTracksFromPopularArtists(int offset, 
+            int noOfTracks) throws SQLException {
+		
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
+	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
+	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
+	+ "FROM tracks t JOIN (SELECT a.artist_id, a.artist_name, avg(c.rating) as average, count(b.track_id) "
+	+ "as count FROM artists a JOIN tracks b JOIN reviews c "
+	+ "ON a.artist_id = b.artist_id AND b.track_id = c.track_id"+
+" GROUP BY a.artist_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.artist_id = x.artist_id"+
+"GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+				String resultImageFile = results.getString("track_image_file");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate, resultImageFile);
+
+
+				tracksList.add(track);
+		
+			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			//System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfRecords = results.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
+	}
+	
+	public List<Tracks> getTracksFromPopularAlbums(int offset, 
+            int noOfTracks) throws SQLException {
+		
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
+	"a.track_title, a.track_url, a.track_duration, a.track_information,"+
+	"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file"
+	+ "FROM tracks t JOIN (SELECT a.album_id, a.album_title, avg(c.rating) as average, count(b.track_id) "
+	+ "as count FROM albums a JOIN tracks b JOIN reviews c "
+	+ "ON a.album_id = b.album_id AND b.track_id = c.track_id"+
+" GROUP BY a.album_id ORDER BY count DESC,average DESC LIMIT 15) as x on t.album_id = x.album_id"+
+"GROUP BY a.track_id ORDER BY totalCount DESC LIMIT " + offset + ", "+noOfTracks;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+				String resultImageFile = results.getString("track_image_file");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate, resultImageFile);
+
+
+				tracksList.add(track);
+		
+			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			//System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfRecords = results.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
 	}
 
 }

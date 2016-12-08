@@ -140,8 +140,13 @@ public class AlbumsDao {
 	
 	public List<Albums> getAllAlbums() throws SQLException {
 		List<Albums> albumsList = new ArrayList<Albums>();
-		String selectAlbums = "SELECT album_id,album_title,album_url " 
-				+ "FROM Albums LIMIT 15";
+		String selectAlbums =  "SELECT x.album_id, x.album_title, x.album_url "
+				+ "FROM (SELECT a.album_id, a.album_title, a.album_url, avg(c.rating) as average, "
+				+ "count(b.track_id) as count " + "FROM albums a JOIN tracks b JOIN reviews c "
+				+ "ON a.album_id = b.album_id AND b.track_id = c.track_id " + "GROUP BY a.album_id "
+				+ "ORDER BY count DESC,average DESC LIMIT 15) as x UNION "
+				+ "(SELECT a.album_id, a.album_title, a.album_url " + "FROM albums a JOIN tracks b "
+				+ "ON a.album_id = b.album_id " + "GROUP BY a.album_id " + "LIMIT 15);";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;

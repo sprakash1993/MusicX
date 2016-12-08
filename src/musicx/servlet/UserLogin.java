@@ -56,6 +56,7 @@ public class UserLogin extends HttpServlet {
 			request.setAttribute("errorMessage", "Invalid username");
 			RequestDispatcher rd = request.getRequestDispatcher("UserLogin.jsp");
             rd.forward(request, response);
+            return;
 		}
 		
 		if(u.getPassword().equals(pass)){
