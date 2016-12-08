@@ -56,7 +56,7 @@ public class MostPlayedTracksServlet extends HttpServlet {
 	        request.setAttribute("noOfPages", noOfPages);
 	        request.setAttribute("currentPage", page);
 	        
-	        RequestDispatcher view = request.getRequestDispatcher("TracksByArtists.jsp");
+	        RequestDispatcher view = request.getRequestDispatcher("TracksByFilteredResults.jsp");
 	        view.forward(request, response);
 	        
 			}catch (SQLException e) {

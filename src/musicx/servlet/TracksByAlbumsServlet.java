@@ -56,7 +56,7 @@ public class TracksByAlbumsServlet extends HttpServlet {
 	        request.setAttribute("currentPage", page);
 	        
 	        
-	        RequestDispatcher view = request.getRequestDispatcher("TracksByAlbums.jsp");
+	        RequestDispatcher view = request.getRequestDispatcher("TracksByFilteredResults.jsp");
 	        view.forward(request, response);
 	        
 			}catch (SQLException e) {
