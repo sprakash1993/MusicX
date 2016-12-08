@@ -164,7 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<p class="tun">
 						${fn:substring(track.getTrack_title(),0,15)}
 					</p>
-						<a href="#" class="item_add"><p class="number item_price"><i class="glyphicon glyphicon-plus"></i>Add to Playlist</p></a>					
+						<a href="PlaylistServlet?trackId=${track.getTrack_id()}" class="item_add"><p class="number item_price"><i class="glyphicon glyphicon-plus"></i>Add to Playlist</p></a>					
 					</div>
 					</c:forEach>
 					</div>

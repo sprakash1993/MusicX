@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistTracksDao {
 
@@ -118,7 +120,8 @@ public class PlaylistTracksDao {
 		}
 	}
 
-	public PlaylistTracks getPlaylistTrackByPlaylistId(int playlistId) throws SQLException {
+	public List<PlaylistTracks> getPlaylistTrackByPlaylistId(int playlistId) throws SQLException {
+		List<PlaylistTracks> plt = new ArrayList<PlaylistTracks>();
 		String selectPlaylistTrack =
 			"SELECT *" +
 			" FROM " + TABLE_NAME +
@@ -133,10 +136,11 @@ public class PlaylistTracksDao {
 			selectStmt = connection.prepareStatement(selectPlaylistTrack);
 			selectStmt.setInt(1, playlistId);
 			results = selectStmt.executeQuery();
-			if(results.next()) {
+			while(results.next()) {
 				String trackId = results.getString(ColumnNames.TRACK_ID.toString());
 				PlaylistTracks playlistTrack = new PlaylistTracks(playlistId, trackId);
-				return playlistTrack;
+				
+				plt.add(playlistTrack);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,6 +156,6 @@ public class PlaylistTracksDao {
 				results.close();
 			}
 		}
-		return null;
+		return plt;
 	}
 }
