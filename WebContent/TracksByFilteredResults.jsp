@@ -142,10 +142,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!--header-ends-->
 	<!--content-->
 <!---->
+<% String name = (String) session.getAttribute("UserName");
+		PlaylistTracksDao pd = PlaylistTracksDao.getInstance();
+		PlaylistDao pld = PlaylistDao.getInstance();
+		List<Playlist> playlists = pld.getPlaylistByUserName(name);
+		System.out.println("PL:SIZE"+playlists.size());
+		Playlist playlistObj = playlists.get(0);
+		List<PlaylistTracks> playlistTracks = pd.getPlaylistTrackByPlaylistId(playlistObj.getPlaylistId());
+		List<String> playListTrackIdList = new ArrayList<>();
+		for(PlaylistTracks p: playlistTracks)
+			playListTrackIdList.add(p.getTrackId());
+		System.out.println("PL:SIZE"+playListTrackIdList.toString());
+				
+	%>
+	<c:set var="playListTrackList" scope="session" value="<%=playListTrackIdList%>"></c:set>
 		<div class="product">
 			<div class="container">
 				
 				<div class="col-md-12 product1">
+				<%session.setAttribute("tracksList", request.getAttribute("tracksList"));%>
 				
 				<div class=" bottom-product">
 				<c:forEach var="track" items="${tracksList}"> 
@@ -165,7 +180,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<p class="tun">
 						${fn:substring(track.getTrack_title(),0,15)}
 					</p>
-						<a href="#" class="item_add"><p class="number item_price"><i class="glyphicon glyphicon-plus"></i>Add to Playlist</p></a>					
+						<a href="PlaylistServlet?trackId=${track.getTrack_id()}&noOfPages=${noOfPages}&currentPage=${currentPage}" class="item_add"><p class="number item_price">
+						<c:choose>
+						<c:when test="${fn:contains(playListTrackList,track.getTrack_id())}">
+						<i class="glyphicon glyphicon-ok"></i>
+						Added
+						</c:when>
+						<c:otherwise>
+						<i class="glyphicon glyphicon-plus"></i>
+						Add to Playlist
+						</c:otherwise>
+						</c:choose></p></a>					
 					</div>
 					</c:forEach>
 					</div>

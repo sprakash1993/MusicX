@@ -77,79 +77,13 @@ function registerUser(){
 		<div class="container">
 			<div class="head-top">
 				<div class="logo">
-				<h1>MusicX</h1>
+				<img alt="" src="images/MusicxLogos-18.png" width="120" height="60">
 				</div>
 		  <div class=" h_menu4">
 				<ul class="memenu skyblue">
 					 <li class="active grid"><a class="color8" href="UserHome.jsp">Home</a></li>	
-				      <li><a class="color1" href="#">Genres</a>
-				      	<div class="mepanel">
-						<div class="row">
-						<% GenresDao gd = GenresDao.getInstance();
-							   List<Genres> genres = gd.getAllGenres();
-							   int i,j;
-							   for(i=0;i<3;i++){%>
-							<div class="col1">
-							
-								<div class="h_nav">
-									<ul>
-									<%for(j=5*i;j<5*(i+1);j++){ %>
-										<li><a class="truncate" href="searchTracksGenre.do?genreID=<%= genres.get(j).getGenre_id() %>"><%= genres.get(j).getGenre_title() %></a></li>
-									    
-										<%} %>
-									</ul>	
-								</div>							
-							</div>
-							<%} %>
-							
-						  </div>
-						</div>
-					</li>
-				    <li class="grid"><a class="color1" href="#">Artists</a>
-					  	<div class="mepanel">
-					  	<h3 align="center">Popular Artists</h3>
-				      	<hr/>
-						<div class="row">
-							<% ArtistsDao ard = ArtistsDao.getInstance();
-							   List<Artists> artists = ard.getAllArtists();
-							   for(i=0;i<3;i++){%>
-							<div class="col1">
-							
-								<div class="h_nav">
-									<ul>
-									<%for(j=5*i;j<5*(i+1);j++){ %>
-										<li><a class="truncate" href="searchTracksArtist.do?artistId=<%= artists.get(j).getArtistId()%>"><%= artists.get(j).getArtistName() %></a></li>
-									    
-										<%} %>
-									</ul>	
-								</div>							
-							</div>
-							<%} %>
-						  </div>
-						</div>
-			    </li>
-				<li class="grid"><a class="color1" href="#">Albums</a>
-					  	<div class="mepanel">
-					  	<h3 align="center">Popular Albums</h3>
-				      	<hr/>
-						<div class="row">
-							<% AlbumsDao ald = AlbumsDao.getInstance();
-							   List<Albums> albums = ald.getAllAlbums();
-							   for(i=0;i<3;i++){%>
-							<div class="col1">
-								<div class="h_nav">
-									<ul>
-									<%for(j=5*i;j<5*(i+1);j++){ %>
-										<li><a class="truncate" href="searchTracksAlbum.do?albumId=<%=albums.get(j).getAlbum_id()%>"><%= albums.get(j).getAlbum_title() %></a></li>
-									    
-										<%} %>
-									</ul>	
-								</div>							
-							</div>
-							<%} %>
-						  </div>
-						</div>
-			    </li>
+				      
+				    
 			  </ul> 
 			</div>
 				

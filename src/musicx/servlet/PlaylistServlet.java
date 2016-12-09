@@ -39,7 +39,9 @@ public class PlaylistServlet extends HttpServlet {
 		String userName = request.getSession().getAttribute("UserName").toString();
 		
 		String trackId = request.getParameter("trackId");
-		
+		List<Tracks> tracksList = (List<Tracks>)request.getSession().getAttribute("tracksList");
+		String noOfPages = request.getParameter("noOfPages");
+		String currentPage = request.getParameter("currentPage");
 		
 		PlaylistDao playlistDao = PlaylistDao.getInstance();
 		
@@ -83,13 +85,23 @@ public class PlaylistServlet extends HttpServlet {
 		       out.println("alert('Track Added to playlist');");
 		       out.println("</script>");
 			request.setAttribute("errorMessage", "Track Added to playlist");
-			RequestDispatcher rd = request.getRequestDispatcher("tracks.do");
+			RequestDispatcher rd = request.getRequestDispatcher("TracksByFilteredResults.jsp");
+			
+			request.setAttribute("tracksList", tracksList);
+	        request.setAttribute("noOfPages", noOfPages);
+	        request.setAttribute("currentPage", currentPage);
+			
             rd.forward(request, response); 
 		} 
 		
 		else{
 			request.setAttribute("errorMessage", "Unable to add to playlist");
-			RequestDispatcher rd = request.getRequestDispatcher("FindAllTracksByPage.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("TracksByFilteredResults.jsp");
+
+			request.setAttribute("tracksList", tracksList);
+	        request.setAttribute("noOfPages", noOfPages);
+	        request.setAttribute("currentPage", currentPage);
+			
             rd.forward(request, response);
 		}
 		
