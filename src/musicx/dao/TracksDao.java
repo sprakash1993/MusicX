@@ -27,6 +27,8 @@ public class TracksDao {
 	
 	private int noOfRecords;
 	
+	private int noOfPlaylistRecords;
+	
 	private int noOfSpecialRecords;
 	
 	private int noOfTracksByGenre;
@@ -699,6 +701,74 @@ public class TracksDao {
 
 	public int getNoOfSpecialRecords() {
 		return noOfSpecialRecords;
+	}
+	
+	public List<Tracks> getTracksFromUsername(String username,int offset, 
+            int noOfTracks) throws SQLException {
+		
+		List<Tracks> tracksList = new ArrayList<Tracks>();
+		String selectTracks = "SELECT a.track_id, a.album_id, a.artist_id, a.genre_id,"+ 
+				"a.track_title, a.track_url, a.track_duration, a.track_information,"+
+				"a.track_number, a.track_composer, a.track_bit_rate, a.track_image_file "+
+			"FROM users d JOIN playlist b JOIN playlist_tracks c JOIN tracks a "+
+			"ON d.username = b.username AND b.playlist_id = c.playlist_id AND c.track_id = a.track_id "
+			+ "WHERE d.username= \""+username+"\" GROUP BY a.track_id LIMIT " + offset + ", "+noOfTracks;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectTracks);
+			results = selectStmt.executeQuery();
+			while (results.next()) {
+
+				String resultTrackId = results.getString("track_id");
+				String resultAlbumId = results.getString("album_id");
+				String resultArtistId = results.getString("artist_id");
+				String resultGenreId = results.getString("genre_id");
+				String resultTrackTitle = results.getString("track_title");
+				String resultTrackUrl = results.getString("track_url");
+				String resultTrackDuration = results.getString("track_duration");
+				String resultTrackInfo = results.getString("track_information");
+				String resultTrackNumber = results.getString("track_number");
+				String resultComposer = results.getString("track_composer");
+				String resultBitRate = results.getString("track_bit_rate");
+				String resultImageFile = results.getString("track_image_file");
+
+				Tracks track = new Tracks(resultTrackId, resultAlbumId, resultArtistId, 
+						resultGenreId, resultTrackTitle, resultTrackUrl, resultTrackDuration, 
+						resultTrackInfo, resultTrackNumber, resultComposer, resultBitRate, resultImageFile);
+
+
+				tracksList.add(track);
+		
+			}
+			results.close();
+			selectStmt=connection.prepareStatement("SELECT FOUND_ROWS()");
+			results = selectStmt.executeQuery();
+			//System.out.println(tracksList.size());
+			if(results.next())
+				this.noOfPlaylistRecords = results.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+			if (selectStmt != null) {
+				selectStmt.close();
+			}
+			if (results != null) {
+				results.close();
+			}
+		}
+		return tracksList;
+	}
+	
+	public int getNoOfPlaylistRecords() {
+		return noOfPlaylistRecords;
 	}
 
 	
