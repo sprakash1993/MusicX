@@ -160,7 +160,7 @@ public class PlaylistDao {
 			selectStmt.setString(1, userName);
 			results = selectStmt.executeQuery();
 			while(results.next()) {
-				int playlistId = results.getInt("PlaylistId");
+				int playlistId = results.getInt("playlist_id");
 				Playlist playlists = new Playlist(userName);
 				playlists.setPlaylistId(playlistId);
 				playlist.add(playlists);
