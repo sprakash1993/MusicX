@@ -6,7 +6,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Create Review</title>
 <title>MusicX - Music Recommendation Portal</title>
 <link rel="shortcut icon" href="images/favicon.ico">
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
@@ -29,8 +28,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript" src="js/memenu.js"></script>
 <script>$(document).ready(function(){$(".memenu").memenu();});</script>
 <script src="js/simpleCart.min.js"> </script>
+
+<script type="text/javascript">
+function validateForm() {
+	
+	var fName = document.forms["frmUserRegister"]["firstname"].value;
+	var lName = document.forms["frmUserRegister"]["lastname"].value;
+
+	
+	if (fName == "" || fName == null){
+		alert("Enter First Name");
+		return false;		
+	}
+	
+	if (lName == "" || lName == null){
+		alert("Enter Last Name");
+		return false;		
+	}
+	
+			
+	}
+	
+
+
+
+function deleteUser(){
+	window.location.href="DeleteUserServlet";	
+}
+</script>
+
 </head>
 <body>
+<p style="align:right"><% if (session != null) {
+	if (session.getAttribute("UserName") != null) {
+		String name = (String) session.getAttribute("UserName");
+		out.print("Hello " + name + ",  Welcome to your Profile");
+	} else {
+		out.println("No Session");
+		request.setAttribute("errorMessage", "Session Expired, Login Again.");
+		RequestDispatcher rd = request.getRequestDispatcher("UserLogin.jsp");
+        rd.forward(request, response); 
+	}
+} %> </p>
 <!--header-->
 <div class="header">
 	<div class="header-top">
@@ -44,9 +83,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="header-left">		
 					<ul>
 						<li><a  href="UserPlayListServlet"  >My Playlist</a></li>
-						<li><a  href="UpdateUser.jsp"  >Account</a></li>
+						<li><a  href="#"  >Account</a></li>
+						<li><a href="DeleteUserServlet">Delete Account</a></li>
 						<li><a  href="LogoutServlet"  >Logout</a></li>
-
 					</ul>
 					<div class="clearfix"> </div>
 			</div>
@@ -138,57 +177,107 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	</div>
 	<!--header-ends-->
-	<!--content-->
-<!---->
-
-
-<div class="container">
-<br/>
-<h1 align="center">Create Review</h1>
-<hr/>
-<div class="page-header">
+<% LocationDao ld = LocationDao.getInstance();
+List<Location> locations = ld.getAllLocation();%>
+<div class=" container">
+<div class=" register">
+	<h1>Update User</h1>
+	<% UsersDao ud = UsersDao.getInstance();
+	Users u = ud.getUserByUsername(session.getAttribute("UserName").toString());
+	session.setAttribute("userObj", u);%>
+	
+<form name="frmUserUpdate" action="UpdateUserServlet" method="get" onsubmit="return validateForm()">
+  
+  <div class="col-md-6 register-top-grid">
+  <div>
+						 <span>Username</span>
+						<input type="text" id="userName" name="userName" disabled="disabled" value="<%=session.getAttribute("UserName")%>"></input>
+					 </div>
+					
+					 <div>
+						<span>First Name</span>
+						<input type="text" id="firstname" name="firstname" value="<%=u.getFirstname()%>"></input>
+					 </div>
+					 <div>
+						<span>Last Name</span>
+						<input type="text" id="lastname" name="lastname" value="<%=u.getLastname()%>"></input>
+					 </div>
+							
+							 <div>
+								<span>Phone</span>
+								<input type="number" id="phone" name="phone" maxlength="6" value="<%= u.getPhone_number() %>">
+							 </div>
+							 
+							  
+							 <br/>
+							 <br/>
+							 
+							  <input type="submit" class="btn btn-warning btn-lg" value="Update">
+							 
+					 
+					 </div>
+				     <div class="col-md-6 register-bottom-grid">
+				     
+					 
+					 <div><p id="errMsg" style="color:red"><%
+    					if(null!=request.getAttribute("errorMessage"))
+    					{
+        				out.println(request.getAttribute("errorMessage"));
+    					}
+					%></p></div>
+						   
+							
+							
+					 </div>
+					 <div class="clearfix"> </div>
+</form>
+</div>
+</div>
+<!--//content-->
+<div class="footer">
+				<div class="container">
+			<div class="footer-top-at">
+			
+				<div class="col-md-4 amet-sed">
+				<h4>MORE INFO</h4>
+				<ul class="nav-bottom">
+						<li><a href="#">How to order</a></li>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="contact.html">Location</a></li>
+						<li><a href="#">Shipping</a></li>
+						<li><a href="#">Membership</a></li>	
+					</ul>	
+				</div>
+				<div class="col-md-4 amet-sed ">
+				<h4>CONTACT US</h4>
+				
+					<p>
+Contrary to popular belief</p>
+					<p>The standard chunk</p>
+					<p>office:  +12 34 995 0792</p>
+					<ul class="social">
+						<li><a href="#"><i> </i></a></li>						
+						<li><a href="#"><i class="twitter"> </i></a></li>
+						<li><a href="#"><i class="rss"> </i></a></li>
+						<li><a href="#"><i class="gmail"> </i></a></li>
+						
+					</ul>
+				</div>
+				<div class="col-md-4 amet-sed">
+					<h4>Newsletter</h4>
+					<p>Sign Up to get all news update
+and promo</p>
+					<form>
+						<input type="text" value="" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
+						<input type="submit" value="Sign up">
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
 		</div>
-<form action="${pageContext.request.contextPath}/CreateReviewServlet" name="frmCreateReview" method="post">
-	<div class="form-group">
-	<table class="table table-bordered" align="center">
-	 	<tr>
-	 		<th align="left">Username</th>
-	 		<td><input class="form-control" type="text" id="userName" name="userName" value="<%= session.getAttribute("UserName") %>"></td>
-	 	</tr>
-	 	<tr>
-	 		<th align="left">Track Id</th>
-	 		<td><input class="form-control" type="text" id="trackId" name="trackId" value="<%= request.getParameter("trackIdReview")%>"></td>
-	 	</tr>
-	 	<tr>
-	 		<th align="left">Rating</th>
-	 		<td><input class="form-control" type="text" id="rating" name="rating" maxlength="3"></td>
-	 	</tr>
-	 	<tr>
-	 		<th align="left">Description</th>
-	 		<td>
-	 			<textarea class="form-control" id="description" name="description" rows="4" cols="26"></textarea>
-	 		</td>
-	 	</tr>
-	 	<tr>
-  	<td colspan="2" align="center"><p id="errMsg" style="color:red"><%
-    if(null!=request.getAttribute("errorMessage"))
-    {
-        out.println(request.getAttribute("errorMessage"));
-    }
-	%></p></td>
-  	</tr>
-	 	<tr>
-	 		
-	 	</tr>
-	 	<tr>
-	 	<td colspan="2" align="center">
-	 		<input class="btn btn-sm btn-default" type="submit" value="Create Review">
-	 	</td>
-	 	</tr> 
-	 	
-	 </table>
-	 </div>
-	 </form>
-	 </div>
+		<div class="footer-class">
+		<p >© 2015 New store All Rights Reserved | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+		</div>
+		</div>
 </body>
 </html>

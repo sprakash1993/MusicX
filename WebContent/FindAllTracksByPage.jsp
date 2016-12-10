@@ -43,10 +43,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="header-left">		
 					<ul>
-						<li ><a href="UserLogin.jsp"  >Login</a></li>
-						<li><a  href="UserRegister.jsp"  >Register</a></li>
-						<li><a  href="playlist.html"  >My Playlist</a></li>
-						<li><a  href="account.html"  >Account</a></li>
+						<li><a  href="UserPlayListServlet"  >My Playlist</a></li>
+						<li><a  href="UpdateUser.jsp"  >Account</a></li>
+						<li><a  href="LogoutServlet"  >Logout</a></li>
 
 					</ul>
 					<div class="clearfix"> </div>
@@ -57,7 +56,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="head-top">
 				<div class="logo">
-				<h1>MusicX</h1>
+				<img alt="" src="images/MusicxLogos-18.png" width="120" height="60">
 				</div>
 		  <div class=" h_menu4">
 				<ul class="memenu skyblue">

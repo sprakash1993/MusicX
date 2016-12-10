@@ -208,18 +208,20 @@ public class UsersDao {
 		return usersList;
 	}
 	
-	public Users updateLocationId(Users user, int newlocation_id) throws SQLException {
-		String updateCompany = "UPDATE Users SET location_id=? WHERE username=?;";
+	public Users updateUser(Users user) throws SQLException {
+		String updateCompany = "UPDATE Users SET firstname = ?"
+				+ ", lastname = ?, phone_number = ? WHERE username=?;";
 		Connection connection = null;
 		PreparedStatement updateStmt = null;
 		try {
 			connection = connectionManager.getConnection();
 			updateStmt = connection.prepareStatement(updateCompany);
-			updateStmt.setInt(1, newlocation_id);
-			updateStmt.setString(2, user.getUsername());
+			updateStmt.setString(1, user.getFirstname());
+			updateStmt.setString(2, user.getLastname());
+			updateStmt.setInt(3, user.getPhone_number());
+			updateStmt.setString(4, user.getUsername());
 			updateStmt.executeUpdate();
 
-			user.setLocation_id(newlocation_id);
 			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -237,14 +239,14 @@ public class UsersDao {
 	/**
 	 * Delete the Users instance. This runs a DELETE statement.
 	 */
-	public Users delete(Users user) throws SQLException {
+	public Users delete(String username) throws SQLException {
 		String deleteUser = "DELETE FROM Users WHERE username=?;";
 		Connection connection = null;
 		PreparedStatement deleteStmt = null;
 		try {
 			connection = connectionManager.getConnection();
 			deleteStmt = connection.prepareStatement(deleteUser);
-			deleteStmt.setString(1, user.getUsername());
+			deleteStmt.setString(1, username);
 			deleteStmt.executeUpdate();
 
 			// Return null so the caller can no longer operate on the

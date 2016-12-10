@@ -44,10 +44,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="header-left">		
 					<ul>
-						<li ><a href="UserLogin.jsp"  >Login</a></li>
-						<li><a  href="UserRegister.jsp"  >Register</a></li>
-						<li><a  href="playlist.html"  >My Playlist</a></li>
-						<li><a  href="account.html"  >Account</a></li>
+						<li><a  href="UserPlayListServlet"  >My Playlist</a></li>
+						<li><a  href="UpdateUser.jsp"  >Account</a></li>
+						<li><a  href="LogoutServlet"  >Logout</a></li>
 
 					</ul>
 					<div class="clearfix"> </div>
@@ -58,7 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="head-top">
 				<div class="logo">
-				<h1>MusicX</h1>
+				<img alt="" src="images/MusicxLogos-18.png" width="120" height="60">
 				</div>
 		  <div class=" h_menu4">
 				<ul class="memenu skyblue">
@@ -147,7 +146,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		PlaylistDao pld = PlaylistDao.getInstance();
 		List<Playlist> playlists = pld.getPlaylistByUserName(name);
 		System.out.println("PL:SIZE"+playlists.size());
-		Playlist playlistObj = playlists.get(0);
+		Playlist playlistObj;
+		if(playlists.size()==0){
+			Playlist pl = new Playlist(name);
+			playlistObj = pld.create(pl);
+		}else{
+		playlistObj = playlists.get(0);
+		}
 		List<PlaylistTracks> playlistTracks = pd.getPlaylistTrackByPlaylistId(playlistObj.getPlaylistId());
 		List<String> playListTrackIdList = new ArrayList<>();
 		for(PlaylistTracks p: playlistTracks)
@@ -169,9 +174,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<a href="single.html"><img class="special-img" src="${track.getTrack_image_file()}" height="150" alt="">
 							<div class="pro-grid">
 							<div class="col-md-12">
-										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-play"></i></span></a>
-										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-heart-empty"></i></span></a>
-										<a href="blog.html"><span class="buy-in"><i class="glyphicon glyphicon-star"></i></span></a>
+										<a href="${track.getTrack_url()}"><span class="buy-in"><i class="glyphicon glyphicon-play"></i></span></a>
+										<a href="#"><span class="buy-in"><i class="glyphicon glyphicon-heart-empty"></i></span></a>
+										<a href="CreateReview.jsp?trackIdReview=${track.getTrack_id()}"><span class="buy-in"><i class="glyphicon glyphicon-star"></i></span></a>
 
 							</div>
 							</div>
@@ -228,10 +233,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					 </c:forEach>
 					 <li> <a href="#" aria-label="Next"><span aria-hidden="true">»</span> </a> </li>
 				  </ul>
-				  
-				  
-
-		
 				  
 				</nav>
 				</div>

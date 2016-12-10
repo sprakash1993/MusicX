@@ -110,7 +110,7 @@ function cancelRegister(){
 		<div class="container">
 			<div class="head-top">
 				<div class="logo">
-				<h1>MusicX</h1>
+				<img alt="" src="images/MusicxLogos-18.png" width="120" height="60">
 				</div>
 		  <div class=" h_menu4">
 				<ul class="memenu skyblue">

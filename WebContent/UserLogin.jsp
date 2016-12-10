@@ -65,8 +65,8 @@ function registerUser(){
 					<ul>
 						<li ><a href="UserLogin.jsp"  >Login</a></li>
 						<li><a  href="UserRegister.jsp"  >Register</a></li>
-						<li><a  href="playlist.html"  >My Playlist</a></li>
-						<li><a  href="account.html"  >Account</a></li>
+						<li><a  href="UserPlayListServlet"  >My Playlist</a></li>
+						<li><a  href="UpdateUser.jsp"  >Account</a></li>
 
 					</ul>
 					<div class="clearfix"> </div>
